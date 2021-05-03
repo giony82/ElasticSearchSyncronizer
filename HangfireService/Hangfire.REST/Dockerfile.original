@@ -1,0 +1,28 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["ElasticSearchWebService/Hangfire.WebService.csproj", "ElasticSearchWebService/"]
+COPY ["School.ElasticSearchSync/Hangfire.Business.csproj", "School.ElasticSearchSync/"]
+COPY ["ElasticSearch.Business.Interfaces/Hangfire.Business.Interfaces.csproj", "ElasticSearch.Business.Interfaces/"]
+COPY ["ElasticSearch.Models/hangfire.Business.Models.csproj", "ElasticSearch.Models/"]
+COPY ["ElasticSearch.Repository/Hangfire.Repository.csproj", "ElasticSearch.Repository/"]
+COPY ["../ElasticSearchSync/Utils/SchoolUtils.csproj", "../ElasticSearchSync/Utils/"]
+COPY ["ElasticSearch.Repository.Interfaces/Hangfire.Repository.Interfaces.csproj", "ElasticSearch.Repository.Interfaces/"]
+COPY ["ElasticSearch.Repository.Entities/Hangfire.Repository.Entities.csproj", "ElasticSearch.Repository.Entities/"]
+RUN dotnet restore "ElasticSearchWebService/Hangfire.WebService.csproj"
+COPY . .
+WORKDIR "/src/ElasticSearchWebService"
+RUN dotnet build "Hangfire.WebService.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Hangfire.WebService.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Hangfire.WebService.dll"]

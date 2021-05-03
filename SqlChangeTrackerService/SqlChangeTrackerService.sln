@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlChangeTrackerService.REST", "SqlChangeTrackerServiceREST\SqlChangeTrackerService.REST.csproj", "{4F96E1A5-7DA9-49F3-B0CC-CC66DAF4740D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{C3D12616-4AB1-45CC-B73E-9ADBA55664EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{832A4E13-6D0C-4923-8CE7-2531C70C6CAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{61D05890-6648-429D-A55F-ADF15E745E11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlChangeTrackerService.Business", "SqlChangeTracker\SqlChangeTrackerService.Business.csproj", "{461327AE-F7ED-445D-8F5C-B5C88F4EB3A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redis.Business", "..\StudentService\Redis.Business\Redis.Business.csproj", "{92AA89CF-1BF4-481A-8BC8-5DF9AF71B076}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolUtils", "..\StudentService\Utils\SchoolUtils.csproj", "{350B77CB-112E-4090-A14B-364F863E2CD4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F96E1A5-7DA9-49F3-B0CC-CC66DAF4740D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F96E1A5-7DA9-49F3-B0CC-CC66DAF4740D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F96E1A5-7DA9-49F3-B0CC-CC66DAF4740D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F96E1A5-7DA9-49F3-B0CC-CC66DAF4740D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461327AE-F7ED-445D-8F5C-B5C88F4EB3A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461327AE-F7ED-445D-8F5C-B5C88F4EB3A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461327AE-F7ED-445D-8F5C-B5C88F4EB3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461327AE-F7ED-445D-8F5C-B5C88F4EB3A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92AA89CF-1BF4-481A-8BC8-5DF9AF71B076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92AA89CF-1BF4-481A-8BC8-5DF9AF71B076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92AA89CF-1BF4-481A-8BC8-5DF9AF71B076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92AA89CF-1BF4-481A-8BC8-5DF9AF71B076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350B77CB-112E-4090-A14B-364F863E2CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350B77CB-112E-4090-A14B-364F863E2CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350B77CB-112E-4090-A14B-364F863E2CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350B77CB-112E-4090-A14B-364F863E2CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{461327AE-F7ED-445D-8F5C-B5C88F4EB3A1} = {C3D12616-4AB1-45CC-B73E-9ADBA55664EB}
+		{92AA89CF-1BF4-481A-8BC8-5DF9AF71B076} = {832A4E13-6D0C-4923-8CE7-2531C70C6CAF}
+		{350B77CB-112E-4090-A14B-364F863E2CD4} = {61D05890-6648-429D-A55F-ADF15E745E11}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C0BE2B6-26BE-40DC-B934-DB19902A6068}
+	EndGlobalSection
+EndGlobal

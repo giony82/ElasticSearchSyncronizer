@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommandsStack.Interfaces\Commands.Infrastructure.csproj" />
+    <ProjectReference Include="..\Redis.Business\Redis.Business.csproj" />
+    <ProjectReference Include="..\StudentService.Business.Interfaces\StudentService.Business.Interfaces.csproj" />
+    <ProjectReference Include="..\StudentService.Business.Models\StudentService.Business.Models.csproj" />
+    <ProjectReference Include="..\StudentService.Data\StudentService.Data.csproj" />
+    <ProjectReference Include="..\StudentService.Repository.Interfaces\StudentService.Repository.Interfaces.csproj" />
+    <ProjectReference Include="..\StudentService.Repository\StudentService.Repository.csproj" />
+	  <PackageReference Include="AutoMapper" Version="10.1.1" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+  </ItemGroup>
+
+</Project>

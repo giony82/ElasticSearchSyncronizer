@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>	  
+	<DockerfileRunArguments>-p 9604:80 --network school --name sqlchangetrackerservice</DockerfileRunArguments>
+	<DockerfileRunEnvironmentFiles>variables.env</DockerfileRunEnvironmentFiles>	  
+  </PropertyGroup>
+  
+  <ItemGroup>    
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
+    <PackageReference Include="Serilog.Sinks.Http" Version="7.2.0" />
+  </ItemGroup>
+
+	
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\StudentService\Redis.Business\Redis.Business.csproj" />
+    <ProjectReference Include="..\..\StudentService\Utils\SchoolUtils.csproj" />    
+    <ProjectReference Include="..\SqlChangeTracker\SqlChangeTrackerService.Business.csproj" />
+  </ItemGroup>
+
+
+</Project>
