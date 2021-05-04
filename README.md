@@ -8,27 +8,32 @@ TODO
 
 ## Technology stack
 
-TODO
+* MS ASP .NET Core & EF Core
+* ELK
+* Redis (no paid third party libraries needed)
+* Hangfire
+* Docker containers
 
-# Solution 1 - via application layer
 
-TODO
-
-# Solution 2 - via SQL changed records notification mechanism
-
-TODO
-
-# Run containers - no replicas
+## Solution 1 - via application layer
 
 TODO
 
-# Run in swarm - with replicas
+## Solution 2 - via SQL changed records notification mechanism
 
 TODO
 
-# Kibana - logs & dashboards
+## Run containers - no replicas
 
 TODO
 
-# Locust 
+## Run in swarm - with replicas
+
+TODO
+
+## Kibana - logs & dashboards
+
+TODO
+
+## Locust 
 
