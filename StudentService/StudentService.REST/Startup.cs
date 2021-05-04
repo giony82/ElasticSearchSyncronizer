@@ -39,7 +39,7 @@ namespace StudentService.REST
 
             services.AddDbContext<SchoolContext>(x => x.UseSqlServer(connectionString ?? throw new NullReferenceException(EnvVarNameConstants.ConnectionString)));
 
-            services.AddTransient<IStudentService, StudentService.Business.StudentService>();
+            services.AddTransient<IStudentService, Business.StudentService>();
             services.AddTransient<IAppSettings, AppSettings>();            
             services.AddTransient<ServiceRetry>();            
             

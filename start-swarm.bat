@@ -1,3 +1,12 @@
+docker service rm  db
+docker service rm  redis
+docker service rm  elk
+docker service rm  elasticsyncservice
+docker service rm  studentservice
+docker service rm  hangfireservice
+
+
+
 docker swarm leave
 
 docker swarm init
@@ -8,7 +17,7 @@ docker build -f "%cd%\StudentService\StudentService.REST\Dockerfile" --force-rm 
 
 docker build -f "%cd%\ElasticSearchSyncService\ElasticSearchSync.REST\Dockerfile" --force-rm -t elasticsyncservice "%cd%\ElasticSearchSyncService"
 
-docker build -f "%cd%\Hangfire\Hangfire.REST\Dockerfile" --force-rm -t hangfireservice "%cd%\Hangfire"
+docker build -f "%cd%\HangfireService\Hangfire.REST\Dockerfile" --force-rm -t hangfireservice "%cd%\HangfireService"
 
 docker service create -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Letmein123" -p 1433:1433 --name db --network nginx-net -d mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
 
