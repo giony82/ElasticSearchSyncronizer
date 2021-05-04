@@ -8,33 +8,34 @@ namespace SchoolUtils
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
          where TEntity : class
     {
-        private readonly DbContext dbContext;
+        private readonly DbContext _dbContext;
 
-        public GenericRepository(DbContext context) => dbContext = context;
+        public GenericRepository(DbContext context) => _dbContext = context;
 
-        private bool inTransaction = false;
+        private bool _inTransaction = false;
 
         public void BeginTransaction()
         {
-            inTransaction = true;
+            _inTransaction = true;
         }
 
         public async Task CommitTransactionAsync()
         {
-            inTransaction = false;
-            await this.dbContext.SaveChangesAsync();
+            _inTransaction = false;
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public void RollBackTransaction()
         {
-            inTransaction = false;            
+            _inTransaction = false;            
         }
 
         public async Task SaveChangesAsync()
         {
-            if(!this.inTransaction)
+            if(!_inTransaction)
             {
-                await this.dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
         }
 
@@ -42,7 +43,7 @@ namespace SchoolUtils
         {
             try
             {
-                return this.dbContext.Set<TEntity>();
+                return _dbContext.Set<TEntity>();
             }
             catch (Exception ex)
             {
@@ -54,12 +55,12 @@ namespace SchoolUtils
         {
             if (entity == null)
             {
-                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
+                throw new ArgumentNullException($"{nameof(entity)} entity must not be null!");
             }
 
             try
             {
-                await this.dbContext.AddAsync(entity);
+                await _dbContext.AddAsync(entity);
 
                 await SaveChangesAsync();
 
@@ -75,12 +76,12 @@ namespace SchoolUtils
         {
             if (entity == null)
             {
-                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
+                throw new ArgumentNullException($"{nameof(entity)} entity must not be null!");
             }
 
             try
             {
-                this.dbContext.Remove(entity);
+                _dbContext.Remove(entity);
 
                 await SaveChangesAsync();
 
@@ -96,12 +97,12 @@ namespace SchoolUtils
         {
             if (entity == null)
             {
-                throw new ArgumentNullException($"{nameof(AddAsync)} entity must not be null");
+                throw new ArgumentNullException($"{nameof(entity)} entity must not be null!");
             }
 
             try
             {
-                this.dbContext.Update(entity);
+                _dbContext.Update(entity);
 
                 await SaveChangesAsync();
 

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Common.Data;
 using Microsoft.EntityFrameworkCore;
 using SchoolUtils;
+using StudentService.Data;
+using StudentService.Data.Models;
 using StudentService.Repository.Interfaces;
 
 namespace StudentService.Repository

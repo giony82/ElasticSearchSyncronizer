@@ -3,7 +3,7 @@ using ElasticSearch.Business.Interfaces;
 using ElasticSearch.Syncronizer;
 using Hangfire;
 using Hangfire.Business;
-using Hangfire.Business.Hangfire;
+using Hangfire.Business.HangFire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

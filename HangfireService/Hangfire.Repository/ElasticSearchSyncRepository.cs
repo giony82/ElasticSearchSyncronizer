@@ -1,4 +1,5 @@
 ﻿using Hangfire.Repository.Interfaces;
+using Microsoft.Extensions.Logging;
 using RestSharp;
 using SchoolUtils;
 
@@ -6,24 +7,37 @@ namespace Hangfire.Repository
 {
     public class ElasticSearchSyncRepository : IElasticSearchSyncRepository
     {
-        private readonly RestClient restClient;
-        private readonly string resource = "/student";
+        private readonly ILogger<ElasticSearchSyncRepository> _logger;
+        private readonly string _resource = "/student";
+        private readonly RestClient _restClient;
 
-        public ElasticSearchSyncRepository(IAppSettings appSettings)
+        public ElasticSearchSyncRepository(IAppSettings appSettings, ILogger<ElasticSearchSyncRepository> logger)
         {
-            var url = appSettings.Get<string>("ElasticSearchSyncronizerServiceURL");
-            restClient = new RestClient(url)
+            _logger = logger;
+            var url = appSettings.Get<string>(RepositoryConstants.ElasticSearchSynchronizerServiceURL);
+
+            //TODO add some kind of factory to hide RestClient
+            _restClient = new RestClient(url)
             {
-                ThrowOnAnyError = true
+                ThrowOnAnyError = true,
+                ThrowOnDeserializationError = true
             };
         }
 
-        public void Syncronize()
+        public void Synchronize()
         {
-            RestRequest request = new RestRequest($"{resource}/syncronize", Method.POST);
+            _logger.LogDebug("Synchronizing students..");
+            var request = new RestRequest($"{_resource}/synchronize", Method.POST);
 
-            //TODO add logic for 404
-            var result = restClient.Execute(request);
+            //TODO add polly
+            IRestResponse result = _restClient.Execute(request);
+
+            if (!result.IsSuccessful)
+            {
+                _logger.LogError(result.ErrorMessage);
+
+                throw result.ErrorException;
+            }
         }
     }
 }

@@ -7,21 +7,28 @@ namespace ElasticSearch.Repository
 {
     public class StudentRepository: IStudentRepository
     {
-        private RestClient restClient;
+        private readonly RestClient _restClient;
         private readonly string resource = "/student/";
         
         public StudentRepository(IAppSettings appSettings)
         {
             var url = appSettings.Get<string>("StudentServiceURL");
-            this.restClient = new RestClient(url); 
+
+            //TODO add factory
+            _restClient = new RestClient(url); 
         }
 
         public StudentEntity Get(string id)
         {
-            RestRequest request = new RestRequest($"{resource}{{id}}", Method.GET);
+            var request = new RestRequest($"{resource}{{id}}", Method.GET);
             request.AddUrlSegment("id", id);
 
-            IRestResponse<StudentEntity> response = this.restClient.Execute<StudentEntity>(request);
+            var response = this._restClient.Execute<StudentEntity>(request);
+
+            if (!response.IsSuccessful)
+            {
+                throw response.ErrorException;
+            }
 
             return response.Data;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Common.Data;
 using SchoolUtils;
+using StudentService.Data.Models;
 
 namespace StudentService.Repository.Interfaces
 {

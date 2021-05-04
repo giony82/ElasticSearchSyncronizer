@@ -1,20 +1,25 @@
-﻿using ElasticSearch.Business.Interfaces;
+﻿using Hangfire.Business.Interfaces;
 using Hangfire.Repository.Interfaces;
+using Serilog;
 
-namespace ElasticSearch.Syncronizer
+namespace Hangfire.Business.Services
 {
     public class ElasticSearchSyncService : IElasticSearchSyncService
     {
-        private readonly IElasticSearchSyncRepository elasticSearchSyncRepo;
+        private readonly IElasticSearchSyncRepository _elasticSearchSyncRepo;
+
+        private static readonly ILogger Logger = Log.ForContext<ElasticSearchSyncService>();
         
         public ElasticSearchSyncService(IElasticSearchSyncRepository elasticSearchSyncRepo)
         {
-            this.elasticSearchSyncRepo = elasticSearchSyncRepo;
+            _elasticSearchSyncRepo = elasticSearchSyncRepo;
         }
 
-        public void Syncronize()
+        public void Synchronize()
         {
-            this.elasticSearchSyncRepo.Syncronize();            
+            Logger.Debug("Synchronize called");
+
+            _elasticSearchSyncRepo.Synchronize();            
         }
     }
 }

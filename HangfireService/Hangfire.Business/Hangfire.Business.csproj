@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ElasticSearch.Business.Interfaces\Hangfire.Business.Interfaces.csproj" />
-    <ProjectReference Include="..\ElasticSearch.Models\hangfire.Business.Models.csproj" />
-    <ProjectReference Include="..\ElasticSearch.Repository.Interfaces\Hangfire.Repository.Interfaces.csproj" />
-    <ProjectReference Include="..\ElasticSearch.Repository\Hangfire.Repository.csproj" />
     <ProjectReference Include="..\Hangfire.Business.Interfaces\Hangfire.Business.Interfaces.csproj" />
     <ProjectReference Include="..\Hangfire.Repository.Interfaces\Hangfire.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Hangfire.Repository\Hangfire.Repository.csproj" />

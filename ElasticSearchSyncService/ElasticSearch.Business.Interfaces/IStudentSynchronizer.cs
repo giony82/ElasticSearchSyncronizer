@@ -2,7 +2,7 @@
 
 namespace ElasticSearch.Business.Interfaces
 {
-    public interface IStudentSyncronizer
+    public interface IStudentSynchronizer
     {
         Task ExecuteAsync();
     }

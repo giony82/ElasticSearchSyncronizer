@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace School.ElasticSearchSyncronizer
+﻿namespace ElasticSearch.Business
 {
-    public class EnvVarNameConstants
+    public class BusinessConstants
     {
         public static string ElasticSearchBulkSyncNoOfRetries = nameof(ElasticSearchBulkSyncNoOfRetries);
 
         public static string ElasticSearchSyncBatchSize = nameof(ElasticSearchSyncBatchSize);
 
         public static string ElasticSearchDocumentItemNoOfRetries = nameof(ElasticSearchDocumentItemNoOfRetries);
+    }
 
-        public static string SyncJobCronExpression = nameof(SyncJobCronExpression);
+    public class DefaultValues
+    {
+        public const int ElasticSearchDocumentItemNoOfRetries = 3;
     }
 }

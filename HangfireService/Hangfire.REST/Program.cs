@@ -1,63 +1,62 @@
 using System;
-using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
-namespace ElasticSearchWebService
+namespace Hangfire.REST
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			ConfigureLogging();
+    public class Program
+    {
+        private static readonly string AspNetCoreEnvironment =
+            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-			CreateHostBuilder(args).Build().Run();
-		}
+        private const string ElasticSearchLogUrl = "ElasticSearchLogURL";
 
-		private static ElasticsearchSinkOptions ConfigureElasticSink(string environment)
-		{
-			return new ElasticsearchSinkOptions(new Uri(Environment.GetEnvironmentVariable("ElasticSearchLogURL")))
-			{
-				AutoRegisterTemplate = true,
-				IndexFormat = $"applogs-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
-			};
-		}
+        public static void Main(string[] args)
+        {
+            ConfigureLogging();
 
-		private static void ConfigureLogging()
-		{
-			var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-			var configuration = new ConfigurationBuilder()
-				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-				.AddJsonFile(
-					$"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
-					optional: true)
-				.Build();
+            CreateHostBuilder(args).Build().Run();
+        }
 
-			Log.Logger = new LoggerConfiguration()
-				.Enrich.FromLogContext()
-				.Enrich.WithMachineName()								
-				.WriteTo.Elasticsearch(ConfigureElasticSink(environment))
-				.Enrich.WithProperty("Environment", environment)
-				.ReadFrom.Configuration(configuration)
-				.CreateLogger();
-		}
+        private static ElasticsearchSinkOptions ConfigureElasticSink(string environment)
+        {
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host.CreateDefaultBuilder(args)
-				.ConfigureWebHostDefaults(webBuilder =>
-				{
-					webBuilder.UseStartup<Startup>();
-				})
-				.ConfigureAppConfiguration(configuration =>
-				{
-					configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-					configuration.AddJsonFile(
-						$"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
-						optional: true);
-				})
-				.UseSerilog();
-	}
+            var elasticSearchUrl = Environment.GetEnvironmentVariable(ElasticSearchLogUrl);
+            return new ElasticsearchSinkOptions(new Uri(elasticSearchUrl ??
+                                                        throw new NullReferenceException(ElasticSearchLogUrl)))
+            {
+                AutoRegisterTemplate = true,
+                IndexFormat = $"applogs-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+            };
+        }
+
+        private static void ConfigureLogging()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{AspNetCoreEnvironment}.json", optional: true)
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .WriteTo.Elasticsearch(ConfigureElasticSink(AspNetCoreEnvironment))
+                .Enrich.WithProperty("Service", "HangFire")
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .ConfigureAppConfiguration(configuration =>
+                {
+                    configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                    configuration.AddJsonFile($"appsettings.{AspNetCoreEnvironment}.json", optional: true);
+                })
+                .UseSerilog();
+    }
 }

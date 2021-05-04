@@ -2,10 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using AutoMapper;
-using CommandsStack.Infrastructure;
 using Common;
-using Common.Data;
-using Common.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +12,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Redis.Business;
 using Redis.Interfaces;
+using School.API;
 using SchoolUtils;
 using StudentService.Business;
 using StudentService.Business.Interfaces;
+using StudentService.Data;
 using StudentService.REST.Automapper;
 
-namespace School.API
+namespace StudentService.REST
 {
     public class Startup
     {
@@ -36,9 +35,9 @@ namespace School.API
         {
             services.AddControllers();
 
-            string connectionString = Environment.GetEnvironmentVariable(EnvVarNameConstants.ConnectionString);
+            var connectionString = Environment.GetEnvironmentVariable(EnvVarNameConstants.ConnectionString);
 
-            services.AddDbContext<SchoolContext>(x => x.UseSqlServer(connectionString));
+            services.AddDbContext<SchoolContext>(x => x.UseSqlServer(connectionString ?? throw new NullReferenceException(EnvVarNameConstants.ConnectionString)));
 
             services.AddTransient<IStudentService, StudentService.Business.StudentService>();
             services.AddTransient<IAppSettings, AppSettings>();            
@@ -83,11 +82,9 @@ namespace School.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-         
             try
             {
-                // migrate any database changes on startup (includes initial db creation)
-                // TODO create separated project to migrate the DB
+                // NOTE: in real life, a separated project to migrate the DB is needed (needed when the service is scaled)
                 dataContext.Database.Migrate();
             }
             catch (Exception e)

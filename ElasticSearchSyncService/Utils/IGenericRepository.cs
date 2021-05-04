@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace SchoolUtils
 {
@@ -9,7 +6,7 @@ namespace SchoolUtils
     {
         Task<TEntity> AddAsync(TEntity entity);
         Task CommitTransactionAsync();
-        Task<TEntity> DeleteAsync(TEntity entity);        
+        Task<TEntity> DeleteAsync(TEntity entity);
         void RollBackTransaction();
         Task SaveChangesAsync();
         Task<TEntity> UpdateAsync(TEntity entity);

@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using CommandsStack.Infrastructure;
-using Common.Data;
-using Common.Events;
+using StudentService.Business.Events;
 using StudentService.Business.Interfaces;
 using StudentService.Business.Models;
+using StudentService.Data.Models;
 using StudentService.Repository.Interfaces;
 
 namespace StudentService.Business

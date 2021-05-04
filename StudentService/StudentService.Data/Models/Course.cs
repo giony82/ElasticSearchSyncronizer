@@ -1,4 +1,4 @@
-﻿namespace Common.Data
+﻿namespace StudentService.Data.Models
 {
     public class Course
     {

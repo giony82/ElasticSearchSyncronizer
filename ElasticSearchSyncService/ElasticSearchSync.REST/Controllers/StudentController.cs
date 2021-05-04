@@ -3,28 +3,28 @@ using ElasticSearch.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ElasticSearchWebService.Controllers
+namespace ElasticSearchSync.REST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class StudentController : ControllerBase
     {      
-        private readonly ILogger<StudentController> logger;
-        private readonly IStudentSyncronizer studentSyncronizer;
+        private readonly ILogger<StudentController> _logger;
+        private readonly IStudentSynchronizer _studentSynchronizer;
 
-        public StudentController(ILogger<StudentController> logger, IStudentSyncronizer studentSyncronizer)
+        public StudentController(ILogger<StudentController> logger, IStudentSynchronizer studentSynchronizer)
         {
-            this.logger = logger;
-            this.studentSyncronizer = studentSyncronizer;
+            this._logger = logger;
+            this._studentSynchronizer = studentSynchronizer;
         }
 
         [HttpPost]
-        [Route("syncronize")]
+        [Route("synchronize")]
         public async Task<IActionResult> Post()
         {
-            this.logger.LogDebug("Post called");
+            _logger.LogDebug("Synchronizing students.");
 
-            await this.studentSyncronizer.ExecuteAsync();
+            await this._studentSynchronizer.ExecuteAsync();
 
             return Ok();
         }

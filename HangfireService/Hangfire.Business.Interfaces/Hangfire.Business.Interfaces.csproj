@@ -4,8 +4,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ElasticSearch.Models\hangfire.Business.Models.csproj" />
-  </ItemGroup>
-
 </Project>

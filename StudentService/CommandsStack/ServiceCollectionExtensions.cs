@@ -2,10 +2,9 @@
 using AutoMapper;
 using Commands.Infrastructure.Interfaces;
 using CommandsStack.Infrastructure;
-using Common.Events;
 using Microsoft.Extensions.DependencyInjection;
-using School.EventHandlers;
 using StudentService.Business.Automapper;
+using StudentService.Business.Events;
 using StudentService.Repository;
 using StudentService.Repository.Interfaces;
 

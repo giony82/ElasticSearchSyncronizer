@@ -29,9 +29,9 @@ namespace ElasticSearchWebService
         {
             services.AddControllers();
 
-            services.AddSingleton<ElasticSyncronizer>();
+            services.AddSingleton<ElasticSynchronizer>();
 
-            services.AddTransient<IStudentSyncronizer,StudentSyncronizer>();
+            services.AddTransient<IStudentSynchronizer,StudentSynchronizer>();
             services.AddTransient<IAppSettings,AppSettings>();
             services.AddSingleton<IRedisService,RedisService>();
             services.AddTransient<IStudentService, StudentService>();

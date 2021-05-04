@@ -15,11 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>    
-    <ProjectReference Include="..\..\Nuget\Redis.Business\Redis.Business.csproj" />    
     <ProjectReference Include="..\ElasticSearch.Business.Interfaces\ElasticSearch.Business.Interfaces.csproj" />
     <ProjectReference Include="..\ElasticSearch.Repository.Interfaces\ElasticSearch.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\ElasticSearch.Repository\ElasticSearch.Repository.csproj" />    
-    <ProjectReference Include="..\..\Nuget\Utils\SchoolUtils.csproj" />    
     <ProjectReference Include="..\Redis\Redis.Business.csproj" />    
     <ProjectReference Include="..\Utils\SchoolUtils.csproj" />
   </ItemGroup>

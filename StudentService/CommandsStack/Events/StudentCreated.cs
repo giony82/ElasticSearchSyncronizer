@@ -1,8 +1,11 @@
 ﻿
 using Common.Interfaces;
 
-namespace Common.Events
+namespace StudentService.Business.Events
 {
+    /// <summary>
+    /// Event triggered when students have been created.
+    /// </summary>
     public class StudentCreated : IEvent
     {
         public string StudentId { get; set; }

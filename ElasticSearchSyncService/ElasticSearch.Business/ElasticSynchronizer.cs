@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 using System.Threading;
-using Elasticsearch.Net;
 using Common.Elastic.Types;
+using Elasticsearch.Net;
 using Nest;
 using School.ElasticSearchSyncronizer;
 using SchoolUtils;
 using Serilog;
 
-namespace Common.Services
+namespace ElasticSearch.Business
 {
-    public class ElasticSyncronizer
+    public class ElasticSynchronizer
     {
         private readonly ElasticClient _esClient;
-        private static readonly ILogger Logger = Log.ForContext<ElasticSyncronizer>();
+        private static readonly ILogger Logger = Log.ForContext<ElasticSynchronizer>();
         private readonly IAppSettings _appSettings;
 
-        public ElasticSyncronizer(IAppSettings appSettings)
+        public ElasticSynchronizer(IAppSettings appSettings)
         {
             SingleNodeConnectionPool connectionPool = new SingleNodeConnectionPool(new Uri("http://elk:9200"));
 
             ConnectionSettings connectionSettings = new ConnectionSettings(connectionPool)
             .EnableDebugMode()
-            .DefaultMappingFor<StudentDocument>(m => m.IndexName(typeof(StudentDocument).Name.ToLower()).IdProperty(p=>p.Id))
-            .DefaultMappingFor<StudentAddressDocument>(m => m.IndexName(typeof(StudentAddressDocument).Name.ToLower()).IdProperty(p => p.Id))
+            .DefaultMappingFor<StudentDocument>(m => m.IndexName(nameof(StudentDocument).ToLower()).IdProperty(p=>p.Id))
+            .DefaultMappingFor<StudentAddressDocument>(m => m.IndexName(nameof(StudentAddressDocument).ToLower()).IdProperty(p => p.Id))
             .PrettyJson()
             .RequestTimeout(TimeSpan.FromMinutes(2));
 
@@ -37,15 +37,15 @@ namespace Common.Services
         /// Bulk sync to ES.
         /// </summary>
         /// <typeparam name="T">Document</typeparam>
-        /// <param name="addedOrUpdatedDocuments">The documents to syncronize</param>
+        /// <param name="addedOrUpdatedDocuments">The documents to synchronize</param>
         /// <returns>the list of documents that could NOT be synced</returns>
         internal List<string> Execute<T>(List<T> addedOrUpdatedDocuments) where T : DocumentBase
         {
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
             Logger.Debug($"Got {addedOrUpdatedDocuments.Count} new/updated items!");
 
-            List<string> failedIds = new List<string>();
+            var failedIds = new List<string>();
 
             var bulkAllObservable = _esClient.BulkAll(addedOrUpdatedDocuments, b => b.BufferToBulk((descriptor, buffer) =>
                 {
@@ -69,7 +69,7 @@ namespace Common.Services
                 failedIds.Add(document.Id);
             })
             .BackOffTime("1s") //how long to wait between retries
-            .BackOffRetries(this._appSettings.Get(EnvVarNameConstants.ElasticSearchBulkSyncNoOfRetries, 3)) //how many retries are attempted if a failure occurs
+            .BackOffRetries(_appSettings.Get(EnvVarNameConstants.ElasticSearchBulkSyncNoOfRetries, 3)) //how many retries are attempted if a failure occurs
             .RefreshOnCompleted() //refresh the index after bulk insert
             .MaxDegreeOfParallelism(Environment.ProcessorCount)
             .ContinueAfterDroppedDocuments(true)

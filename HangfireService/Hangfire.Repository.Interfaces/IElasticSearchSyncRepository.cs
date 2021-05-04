@@ -2,6 +2,6 @@
 {
     public interface IElasticSearchSyncRepository
     {
-        void Syncronize();
+        void Synchronize();
     }
 }

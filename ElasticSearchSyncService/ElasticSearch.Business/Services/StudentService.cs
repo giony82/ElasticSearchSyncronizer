@@ -4,24 +4,24 @@ using ElasticSearch.Business.Models;
 using ElasticSearch.Repository.Entities;
 using ElasticSearch.Repository.Interfaces;
 
-namespace ElasticSearch.Syncronizer
+namespace ElasticSearch.Business.Services
 {
     public class StudentService:IStudentService
     {
-        private readonly IStudentRepository studentRepository;
-        private readonly IMapper mapper;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IMapper _mapper;
 
         public StudentService(IStudentRepository studentRepository, IMapper mapper)
         {
-            this.studentRepository = studentRepository;
-            this.mapper = mapper;
+            _studentRepository = studentRepository;
+            _mapper = mapper;
         }
 
         public StudentModel Get(string id)
         {
-            StudentEntity studentEntity = this.studentRepository.Get(id);
+            StudentEntity studentEntity = _studentRepository.Get(id);
 
-            return this.mapper.Map<StudentModel>(studentEntity);
+            return _mapper.Map<StudentModel>(studentEntity);
         }
     }
 }

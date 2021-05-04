@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ElasticSearchWebService.Controllers
+namespace Hangfire.REST.Controllers
 {
     [ApiController]
     [Route("[controller]")]

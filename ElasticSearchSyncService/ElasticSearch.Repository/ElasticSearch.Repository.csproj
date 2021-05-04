@@ -11,7 +11,6 @@
   <ItemGroup>        
     <ProjectReference Include="..\ElasticSearch.Repository.Entities\ElasticSearch.Repository.Entities.csproj" />
     <ProjectReference Include="..\ElasticSearch.Repository.Interfaces\ElasticSearch.Repository.Interfaces.csproj" />
-    <ProjectReference Include="..\..\Nuget\Utils\SchoolUtils.csproj" />
     <ProjectReference Include="..\Utils\SchoolUtils.csproj" />
   </ItemGroup>
 
