@@ -10,7 +10,7 @@ namespace ElasticSearchSync.REST
 {
     public class Program
     {
-        private static readonly string AspNetCoreEnvironment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        private static readonly string AspNetCoreEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         private static string _appSettingsJson;
         private const string ElasticSearchLogUrl = "ElasticSearchLogURL";
 
@@ -25,7 +25,7 @@ namespace ElasticSearchSync.REST
 
         private static ElasticsearchSinkOptions ConfigureElasticSink(string environment)
         {
-            var environmentVariable = System.Environment.GetEnvironmentVariable(ElasticSearchLogUrl);
+            var environmentVariable = Environment.GetEnvironmentVariable(ElasticSearchLogUrl);
             if (environmentVariable == null) throw new NullReferenceException(ElasticSearchLogUrl);
 
             return new ElasticsearchSinkOptions(new Uri(environmentVariable))

@@ -2,7 +2,7 @@ using Common;
 using Common.Services;
 using ElasticSearch.Business;
 using ElasticSearch.Business.Interfaces;
-using ElasticSearch.Syncronizer;
+using ElasticSearch.Business.Services;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

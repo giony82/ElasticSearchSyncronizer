@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>	  
-	  <DockerfileRunArguments>-p 9602:80 --network school --name elasticsyncronizer</DockerfileRunArguments>
+	  <DockerfileRunArguments>-p 9602:80 --network school --name elasticsyncservice</DockerfileRunArguments>
 	  <DockerfileRunEnvironmentFiles>variables.env</DockerfileRunEnvironmentFiles>	  
   </PropertyGroup>
   
