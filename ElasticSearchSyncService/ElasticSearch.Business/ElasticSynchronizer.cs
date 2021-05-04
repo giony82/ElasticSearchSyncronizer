@@ -6,7 +6,6 @@ using System.Threading;
 using Common.Elastic.Types;
 using Elasticsearch.Net;
 using Nest;
-using School.ElasticSearchSyncronizer;
 using SchoolUtils;
 using Serilog;
 
@@ -69,11 +68,11 @@ namespace ElasticSearch.Business
                 failedIds.Add(document.Id);
             })
             .BackOffTime("1s") //how long to wait between retries
-            .BackOffRetries(_appSettings.Get(EnvVarNameConstants.ElasticSearchBulkSyncNoOfRetries, 3)) //how many retries are attempted if a failure occurs
+            .BackOffRetries(_appSettings.Get(BusinessConstants.ElasticSearchBulkSyncNoOfRetries, DefaultValues.ElasticSearchBulkSyncNoOfRetries)) //how many retries are attempted if a failure occurs
             .RefreshOnCompleted() //refresh the index after bulk insert
             .MaxDegreeOfParallelism(Environment.ProcessorCount)
             .ContinueAfterDroppedDocuments(true)
-            .Size(_appSettings.Get(EnvVarNameConstants.ElasticSearchSyncBatchSize, 5))); ;            
+            .Size(_appSettings.Get(BusinessConstants.ElasticSearchSyncBatchSize, DefaultValues.ElasticSearchSyncBatchSize))); ;            
 
             var waitHandle = new ManualResetEvent(false);
             ExceptionDispatchInfo exceptionDispatchInfo = null;

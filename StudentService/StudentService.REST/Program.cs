@@ -14,6 +14,8 @@ namespace StudentService.REST
 
         private const string ElasticSearchLogUrl = "ElasticSearchLogURL";
 
+        private const string AppsettingsJson = "appsettings.json";
+
         public static void Main(string[] args)
         {
             ConfigureLogging();
@@ -36,7 +38,7 @@ namespace StudentService.REST
         private static void ConfigureLogging()
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile(AppsettingsJson, optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{AspNetCoreEnvironment}.json", optional: true)
                 .Build();
 
@@ -44,7 +46,7 @@ namespace StudentService.REST
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
                 .WriteTo.Elasticsearch(ConfigureElasticSink(AspNetCoreEnvironment))
-                .Enrich.WithProperty("Service", "HangFire")
+                .Enrich.WithProperty("Service", "StudentService")
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
         }
@@ -54,7 +56,7 @@ namespace StudentService.REST
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .ConfigureAppConfiguration(configuration =>
                 {
-                    configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                    configuration.AddJsonFile(AppsettingsJson, optional: false, reloadOnChange: true);
                     configuration.AddJsonFile($"appsettings.{AspNetCoreEnvironment}.json", optional: true);
                 })
                 .UseSerilog();

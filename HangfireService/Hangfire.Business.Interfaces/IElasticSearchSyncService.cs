@@ -1,4 +1,4 @@
-﻿namespace ElasticSearch.Business.Interfaces
+﻿namespace Hangfire.Business.Interfaces
 {
     public interface IElasticSearchSyncService
     {

@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.Repository.Entitie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolUtils", "Utils\SchoolUtils.csproj", "{202718A8-1CCC-4CA6-8D17-CEFB59CAEEDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.Data", "Hangfire.Data\Hangfire.Data.csproj", "{A070211D-50C9-4CD7-A515-AB9DA92F477D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{202718A8-1CCC-4CA6-8D17-CEFB59CAEEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{202718A8-1CCC-4CA6-8D17-CEFB59CAEEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{202718A8-1CCC-4CA6-8D17-CEFB59CAEEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A070211D-50C9-4CD7-A515-AB9DA92F477D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A070211D-50C9-4CD7-A515-AB9DA92F477D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A070211D-50C9-4CD7-A515-AB9DA92F477D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A070211D-50C9-4CD7-A515-AB9DA92F477D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{CEC5A72E-3D27-45BA-98C7-FED13A3C3806} = {C7A27DED-2803-4FC5-A3F5-62701460A38B}
 		{424E55D9-73CD-4A35-A457-0F5EB72C67EB} = {C7A27DED-2803-4FC5-A3F5-62701460A38B}
 		{202718A8-1CCC-4CA6-8D17-CEFB59CAEEDE} = {9C3F402C-51BD-46CB-A884-E0B58CAFB97C}
+		{A070211D-50C9-4CD7-A515-AB9DA92F477D} = {C7A27DED-2803-4FC5-A3F5-62701460A38B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C0BE2B6-26BE-40DC-B934-DB19902A6068}

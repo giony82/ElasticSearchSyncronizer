@@ -1,4 +1,4 @@
-﻿using ElasticSearch.Business.Interfaces;
+﻿using Hangfire.Business.Interfaces;
 
 namespace Hangfire.Business.Jobs
 {
@@ -15,7 +15,7 @@ namespace Hangfire.Business.Jobs
         [AutomaticRetry(Attempts = 0, LogEvents = false, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public void DoWork()
         {
-            _elasticSearchSyncService.Syncronize();
+            _elasticSearchSyncService.Synchronize();
         }
     }
 }

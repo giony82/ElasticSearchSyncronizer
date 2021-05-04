@@ -1,10 +1,8 @@
-REM if it's the first time, uncomment all REM
+docker swarm leave
 
-REM docker swarm leave
+docker swarm init
 
-REM  docker swarm init
-
-REM docker network create -d overlay nginx-net
+docker network create -d overlay nginx-net
 
 docker build -f "%cd%\StudentService\StudentService.REST\Dockerfile" --force-rm -t studentservice "%cd%\StudentService"
 
@@ -22,4 +20,4 @@ docker service create --name studentservice --env-file StudentService/StudentSer
 
 docker service create --name elasticsyncservice --env-file ElasticSearchSyncService/ElasticSearchSync.REST/variables.env --replicas=2 --network nginx-net --publish 9602:80 -d elasticsyncservice
 
-docker service create --name hangfireservice --env-file Hangfire/Hangfire.REST/variables.env --replicas=1 --network nginx-net --publish 9603:80 -d hangfireservice
+docker service create --name hangfireservice --env-file HangfireService/Hangfire.REST/variables.env --replicas=1 --network nginx-net --publish 9603:80 -d hangfireservice

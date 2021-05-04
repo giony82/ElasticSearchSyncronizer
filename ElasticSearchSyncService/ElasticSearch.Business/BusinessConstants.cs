@@ -8,9 +8,4 @@
 
         public static string ElasticSearchDocumentItemNoOfRetries = nameof(ElasticSearchDocumentItemNoOfRetries);
     }
-
-    public class DefaultValues
-    {
-        public const int ElasticSearchDocumentItemNoOfRetries = 3;
-    }
 }

@@ -1,4 +1,5 @@
 ﻿using Hangfire.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 using SchoolUtils;
@@ -40,4 +41,6 @@ namespace Hangfire.Repository
             }
         }
     }
+
+  
 }

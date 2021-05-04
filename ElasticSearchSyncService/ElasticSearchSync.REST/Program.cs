@@ -11,13 +11,11 @@ namespace ElasticSearchSync.REST
     public class Program
     {
         private static readonly string AspNetCoreEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        private static string _appSettingsJson;
+        private const string AppSettingsJson ="appsettings.json";
         private const string ElasticSearchLogUrl = "ElasticSearchLogURL";
 
         public static void Main(string[] args)
         {
-            _appSettingsJson = "appsettings.json";
-
             ConfigureLogging();
 
             CreateHostBuilder(args).Build().Run();
@@ -38,7 +36,7 @@ namespace ElasticSearchSync.REST
         private static void ConfigureLogging()
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile(_appSettingsJson, false, true)
+                .AddJsonFile(AppSettingsJson, false, true)
                 .AddJsonFile($"appsettings.{AspNetCoreEnvironment}.json", true)
                 .Build();
 
@@ -57,7 +55,7 @@ namespace ElasticSearchSync.REST
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .ConfigureAppConfiguration(configuration =>
                 {
-                    configuration.AddJsonFile(_appSettingsJson, false, true);
+                    configuration.AddJsonFile(AppSettingsJson, false, true);
                     configuration.AddJsonFile($"appsettings.{AspNetCoreEnvironment}.json", true);
                 })
                 .UseSerilog();
