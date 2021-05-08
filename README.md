@@ -30,7 +30,7 @@ Each time an entity changes, the app layer triggers specific events which are tr
 
 ![image](https://user-images.githubusercontent.com/16101625/117530148-3ca85080-afe4-11eb-8629-3bd7a3896493.png)
 
-## Solution 2 - via SQL changed records notification mechanism
+## Solution 2 - via SQL change record notification mechanism (built in MS SQL)
 
 Instead modifying the application layer (StudentService in this case), another service could run and listen for record change notifications (SqlChangeTrackerService)
 
