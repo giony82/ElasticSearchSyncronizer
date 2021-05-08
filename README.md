@@ -4,7 +4,11 @@ Syncronizes data in elastic search in batches.
 
 ## Arhitecture
 
-TODO
+The replication strategy is to update entities in ES in batches and not "stress" ES each time something changes in the app. Redis is used as the central point of syncronization so that the services can be scaled. This is accomplies with sorted sets. 
+
+Two solutions are considered:
+ - The app layer is aware of the need to syncronize data in another system. This suits best new projects where ES is considered from the beginning. 
+ - The app layer is not aware of the need to syncronize data in another system. This might be a good solution for old projects that are hard and risky to change, but ES is needed for fast search queries. 
 
 ## Technology stack
 
@@ -23,7 +27,7 @@ Each time an entity changes, the app layer triggers specific events which are tr
 
 ![image](https://user-images.githubusercontent.com/16101625/117529567-e1289380-afe0-11eb-920d-34a63496da4a.png)
 
-### Sequence diagram
+### Sequence [diagram](https://lucid.app/documents/view/fa2f3abb-12f8-4053-b9d8-441ea85e93fc)
 
 ![image](https://user-images.githubusercontent.com/16101625/117530148-3ca85080-afe4-11eb-8629-3bd7a3896493.png)
 
