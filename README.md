@@ -1,10 +1,10 @@
 # Elastic Search Syncronizer
 
-Syncronizes data in elastic search in batches.
+Syncronizes data in elastic search in batches. Suitable for applications where data changes quite often and search queries should respond fast even for large amount of data.
 
 ## Arhitecture
 
-The replication strategy is to update entities in ES in batches and not "stress" ES each time something changes in the app. Redis is used as the central point of syncronization so that the services can be scaled. This is accomplies with sorted sets. 
+The replication strategy is to update entities in ES in batches and not "stress" ES each time something changes in the app. Redis is used as the central point of syncronization so that the services can be scaled. This is accomplies with sorted sets, without the need of paid Redis third-party libraries.
 
 Two solutions are considered:
  - The app layer is aware of the need to syncronize data in another system. This suits best new projects where ES is considered from the beginning. 
@@ -18,14 +18,13 @@ Two solutions are considered:
 * Hangfire
 * Docker containers
 
-
 ## Solution 1 - via application layer
 
 Each time an entity changes, the app layer triggers specific events which are translated in new entries in a Redis sorted set. From here, via cronjobs, a dedicated sync service is pulling data from Redis and then builds the necessary structure that must be pushed to Elastic Search. The replication is done in batches:
 
 ### Components [diagram](https://lucid.app/documents/view/6ca14e71-e916-4dda-ba4c-4ee699b25885):
 
-![image](https://user-images.githubusercontent.com/16101625/117529567-e1289380-afe0-11eb-920d-34a63496da4a.png)
+![image](https://user-images.githubusercontent.com/16101625/117539369-fdddbf00-b012-11eb-96ae-d961a1871bb6.png)
 
 ### Sequence [diagram](https://lucid.app/documents/view/fa2f3abb-12f8-4053-b9d8-441ea85e93fc)
 
@@ -33,7 +32,13 @@ Each time an entity changes, the app layer triggers specific events which are tr
 
 ## Solution 2 - via SQL changed records notification mechanism
 
-TODO
+Instead modifying the application layer (StudentService in this case), another service could run and listen for record change notifications (SqlChangeTrackerService)
+
+In order to test this solution, edit the [environments.env](https://github.com/giony82/ElasticSearchSyncronizer/blob/master/StudentService/StudentService.REST/variables.env) file from the StudentService and disable the Elastic Search synchronization within this service.
+
+Components [diagram](https://lucid.app/documents/view/769a2017-12b8-4a01-8363-9ef6f532c9ac)
+
+![image](https://user-images.githubusercontent.com/16101625/117539242-798b3c00-b012-11eb-9806-9e9686932ffe.png)
 
 ## Redis sorted sets and scalability
 
