@@ -2,7 +2,7 @@
 
 Syncronizes data in elastic search in batches. Suitable for applications where data changes quite often and search queries should respond fast even for large amount of data.
 
-## Arhitecture
+## Architecture
 
 The replication strategy is to update entities in ES in batches and not "stress" ES each time something changes in the app. Redis is used as the central point of syncronization so that the services can be scaled. This is accomplies with sorted sets, without the need of paid Redis third-party libraries.
 
