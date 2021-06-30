@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Common.Elastic.Types;
 using ElasticSearch.Business.Interfaces;
 using ElasticSearch.Business.Models;
+using ElasticSearch.Business.Types;
 using Redis.Interfaces;
 using SchoolUtils;
 using Serilog;
@@ -133,6 +134,12 @@ namespace ElasticSearch.Business
 
         private StudentDocument BuildStudent(StudentModel studentModel, int currentRetryAttempt)
         {
+            dynamic dynamicContent = new
+            {
+                someProperty = new Random(DateTime.Now.Second).Next(1,2000),
+                someSecondProperty = "some string property"
+            };
+
             // enrich object with info from other places by case
             return new StudentDocument
             {
@@ -140,7 +147,8 @@ namespace ElasticSearch.Business
                 Name = studentModel.Name,
                 Address = new StudentAddressDocument {City = "Ohio"},
                 NoOfRetry = currentRetryAttempt,
-                LastUpdate = DateTime.UtcNow
+                LastUpdate = DateTime.UtcNow,
+                DynamicContent=dynamicContent
             };
         }
     }

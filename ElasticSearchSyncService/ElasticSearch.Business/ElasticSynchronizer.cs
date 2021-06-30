@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using Common.Elastic.Types;
+using ElasticSearch.Business.Types;
 using Elasticsearch.Net;
 using Nest;
 using SchoolUtils;

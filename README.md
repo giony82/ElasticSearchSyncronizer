@@ -89,3 +89,13 @@ Steps to use locust:
 - No retry is done for HTTP Calls. Polly should be considered (retries, circuit breaker)
 - Whenever something changes in the StudentService, the data should be sent to Redis using the transactional outbox pattern 
 - The REST library used in the repo layers should be hidden via some abstraction layer. 
+
+#Useful links
+
+Get the info of the student index:
+
+http://localhost:9200/studentdocument?pretty
+
+Get the content
+
+http://localhost:9200/studentdocument/_search?pretty

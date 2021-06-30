@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Common;
 using Common.Services;
@@ -12,7 +13,6 @@ namespace Redis.Business
 {
     public class RedisService : IRedisService
     {
-        private readonly string _setLock = nameof(_setLock);
         private readonly ServiceRetry _serviceRetry;
         private readonly int _batchSize;
         private readonly TimeSpan _timeoutSpan = new TimeSpan(0, 0, 10);
@@ -26,17 +26,17 @@ namespace Redis.Business
             _batchSize = appSettings.Get(RedisEnvConstants.RedisSetRange, 10);
         }
 
-        public void AddToSet(string identifier, string setID, double score = 0)
+        public void AddToSet(string identifier, string setId, double score = 0)
         {
             _serviceRetry.RetryPolicy.Execute(() =>
             {
-                _muxer.GetDatabase().SortedSetAdd(setID, identifier, score: score);
+                _muxer.GetDatabase().SortedSetAdd(setId, identifier, score: score);
             });
         }
 
         public T WithLock<T>(Func<T> action, string identifier)
         {
-            bool locked = false;
+            var locked = false;
             try
             {
                 if (AcquireLock(identifier))
@@ -57,29 +57,28 @@ namespace Redis.Business
             return default;
         }
 
-        public async Task<List<(string id, double score)>> ExtractIdsFromSetWithScore(string setID)
+        /// <summary>
+        /// Extracts a range of values from the given sorted set Id. This is done transactional by creating a Redis transaction, fetching the configured range of values
+        /// and then removing the range.
+        /// </summary>
+        public async Task<List<(string id, double score)>> ExtractIdsFromSetWithScore(string setId)
         {
             return await _serviceRetry.RetryPolicy.Execute(async () =>
             {
                 //The object returned from GetDatabase is a cheap pass-thru object, and does not need to be stored.
                 IDatabase db = _muxer.GetDatabase();
 
-                var transaction = db.CreateTransaction();
+                ITransaction transaction = db.CreateTransaction();
 
-                SortedSetEntry[] results = await transaction.SortedSetRangeByRankWithScoresAsync(setID, 0, _batchSize - 1);
+                var results = await transaction.SortedSetRangeByRankWithScoresAsync(setId, 0, _batchSize - 1);
 
-                List<(string, double)> idsWithScore = new List<(string, double)>();
+                var idsWithScore = results.Select(result => (result.Element, result.Score)).Select(dummy => ((string, double)) dummy).ToList();
 
-                foreach (var result in results)
-                {
-                    idsWithScore.Add((result.Element, result.Score));
-                }
+                await transaction.SortedSetRemoveRangeByRankAsync(setId, 0, _batchSize - 1);
 
-                await transaction.SortedSetRemoveRangeByRankAsync(setID, 0, _batchSize - 1);
+                var committed = await transaction.ExecuteAsync();
 
-                bool commited = await transaction.ExecuteAsync();
-
-                if(!commited)
+                if(!committed)
                 {
                     throw new Exception("Cannot commit redis transaction");
                 }
@@ -96,12 +95,12 @@ namespace Redis.Business
         {
             return _serviceRetry.RetryPolicy.Execute(() =>
             {
-                bool acquired = _muxer.GetDatabase().StringSet(key, "1", _timeoutSpan, When.NotExists);
+                var acquired = _muxer.GetDatabase().StringSet(key, "1", _timeoutSpan, When.NotExists);
                 if (!acquired)
                 {
                     throw new Exception($"A lock already exists for {key}");
                 }
-                return acquired;
+                return true;
             });
         }
 
@@ -110,7 +109,7 @@ namespace Redis.Business
         /// </summary>          
         public void ReleaseLock(string key)
         {
-            string lua_script = @"  
+            var lua_script = @"  
     if (redis.call('GET', KEYS[1]) == ARGV[1]) then  
         redis.call('DEL', KEYS[1])  
         return true  
@@ -122,7 +121,7 @@ namespace Redis.Business
             {
                 IDatabase db = _muxer.GetDatabase();
 
-                var res = db.ScriptEvaluate(lua_script, new RedisKey[] { key }, new RedisValue[] { "1" });
+                db.ScriptEvaluate(lua_script, new RedisKey[] { key }, new RedisValue[] { "1" });
             });
         }
     }
