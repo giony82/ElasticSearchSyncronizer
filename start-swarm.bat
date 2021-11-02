@@ -1,6 +1,6 @@
 call stop-swarm-services.bat
 
-docker swarm leave
+docker swarm leave 
 
 docker swarm init
 

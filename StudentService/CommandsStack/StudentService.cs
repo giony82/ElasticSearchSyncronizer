@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using CommandsStack.Infrastructure;
+using Redis.Interfaces;
 using StudentService.Business.Events;
 using StudentService.Business.Interfaces;
 using StudentService.Business.Models;
@@ -15,13 +16,15 @@ namespace StudentService.Business
         private readonly IStudentRepository studentRepository;        
         private readonly IBus eventSource;
         private readonly IMapper mapper;
+        private readonly IRedisService _redisService;
         private readonly IMapper mapper1;
 
-        public StudentService(IStudentRepository studentRepository, IBus eventSource, IMapper mapper)
+        public StudentService(IStudentRepository studentRepository, IBus eventSource, IMapper mapper, IRedisService redisService)
         {
             this.studentRepository = studentRepository;            
             this.eventSource = eventSource;
             this.mapper = mapper;
+            _redisService = redisService;
         }
 
         public async Task<Guid> CreateAsync(CreateStudentModel studentModel)
@@ -79,6 +82,26 @@ namespace StudentService.Business
             this.eventSource.Handle(new StudentUpdated(studentEntity.StudentId.ToString()));
 
             return true;
+        }
+
+        public async Task<bool> IncrementScoreAsync(Guid id, int value)
+        {
+            var key = $"student-increment{id}";
+            try
+            {
+                _redisService.AcquireLock(key);
+
+                //1.begin transaction
+                //2. mutex.
+                var updated = await this.studentRepository.IncrementScoreAsync(id, value);
+                //end transaction.
+
+                return updated;
+            }
+            finally
+            {
+                _redisService.ReleaseLock(key);
+            }
         }
     }
 }

@@ -10,5 +10,6 @@ namespace StudentService.Business.Interfaces
         Task<bool> DeleteAsync(Guid id);
         Task<StudentModel> GetAsync(Guid id);
         Task<bool> UpdateAsync(StudentModel student);
+        Task<bool> IncrementScoreAsync(Guid id, int value);
     }
 }

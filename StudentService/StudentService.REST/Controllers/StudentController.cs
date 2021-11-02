@@ -65,6 +65,22 @@ namespace StudentService.REST.Controllers
             return NotFound();
         }
 
+        [HttpPost]
+        [Route("increment/{id}/{value}")]
+        public async Task<IActionResult> IncrementScore(Guid id, int value)
+        {
+            Logger.Debug($"IncrementScore called for {id} with {value}.");
+
+            var incremented = await studentService.IncrementScoreAsync(id, value);
+
+            if (incremented)
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+
+            return NotFound();
+        }
+
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get(Guid id)

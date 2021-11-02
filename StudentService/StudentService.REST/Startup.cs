@@ -36,7 +36,7 @@ namespace StudentService.REST
             services.AddControllers();
 
             var connectionString = Environment.GetEnvironmentVariable(EnvVarNameConstants.ConnectionString);
-
+            
             services.AddDbContext<SchoolContext>(x => x.UseSqlServer(connectionString ?? throw new NullReferenceException(EnvVarNameConstants.ConnectionString)));
 
             services.AddTransient<IStudentService, Business.StudentService>();

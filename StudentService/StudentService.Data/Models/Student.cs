@@ -9,5 +9,7 @@ namespace StudentService.Data.Models
         public Guid StudentId { get; set; }
 
         public string Name { get; set; }
+
+        public StudentProfile StudentProfile { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace StudentService.Repository.Interfaces
     public interface IStudentRepository : IGenericRepository<Student>
     {
         Task<Student> GetByIdAsync(Guid id);
+        Task<bool> IncrementScoreAsync(Guid id, int value);
     }
 }
