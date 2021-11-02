@@ -91,11 +91,8 @@ namespace StudentService.Business
             {
                 _redisService.AcquireLock(key);
 
-                //1.begin transaction
-                //2. mutex.
                 var updated = await this.studentRepository.IncrementScoreAsync(id, value);
-                //end transaction.
-
+                
                 return updated;
             }
             finally
